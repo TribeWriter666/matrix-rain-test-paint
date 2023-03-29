@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Matrix Rain with Paintbrush</title>
+	<style>
+		canvas {
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="800" height="600"></canvas>
+
+	<script>
+		const canvas = document.getElementById('canvas');
+		const context = canvas.getContext('2d');
+
+		let isPainting = false;
+
+		function startPainting(e) {
+			isPainting = true;
+			paint(e);
+		}
+
+		function stopPainting() {
+			isPainting = false;
+			context.beginPath();
+		}
+
+		function paint(e) {
+			if (!isPainting) return;
+
+			context.lineWidth = 10;
+			context.lineCap = 'round';
+			context.strokeStyle = '#FFFFFF';
+
+			context.lineTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+			context.stroke();
+			context.beginPath();
+			context.moveTo(e.clientX - canvas.offsetLeft, e.clientY - canvas.offsetTop);
+		}
+
+		canvas.addEventListener('mousedown', startPainting);
+		canvas.addEventListener('mouseup', stopPainting);
+		canvas.addEventListener('mousemove', paint);
+	</script>
+</body>
+</html>
